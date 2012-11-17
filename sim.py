@@ -4,16 +4,17 @@ import os
 import time
 import sys
 
-#sys.path.append("/home/turtle/Research/TopSecret/")
+sys.path.append("/home/turtle/Research/TopSecret/")
 
-#import CLOCK, LRU, LFU, OPT, ARC, CLOCKPRO, optimal as yopt
-import CLOCK, LRU, LFU, OPT, ARC #, LIRS
+import CLOCK, LRU, LFU, OPT, ARC, CLOCKPRO
+#import CLOCK, LRU, LFU, OPT, ARC #, LIRS
 
 l = { "CLOCK": CLOCK,
-     "LRU": LRU,
-	 "LFU": LFU,
-	 "OPT": OPT,
-	 "ARC": ARC }
+      "CLOCKPRO": CLOCKPRO,
+      "LRU": LRU,
+	  "LFU": LFU,
+	  "OPT": OPT,
+	  "ARC": ARC }
 
 if not os.path.isdir("results/"):
 	os.makedirs("results/")

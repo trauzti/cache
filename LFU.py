@@ -23,8 +23,9 @@ class alg:
 			self.hitcount += 1
 			old = self.stored[key]
 			old[2] = False
-			item = [key, old[1]+1, True]
+			item = [old[0]+1, key, True]
 			heappush(self.heap, item)
+			self.stored[key] = item
 		else:
 			self.put(key)
 
@@ -38,6 +39,6 @@ class alg:
 				del self.stored[delkey]
 			else:
 				self.cn += 1
-			item = [key, 1, True]
+			item = [1, key, True]
 			heappush(self.heap, item)
 			self.stored[key] = item

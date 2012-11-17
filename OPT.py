@@ -8,7 +8,7 @@ class alg:
 		self.c = c        # Cache size
 		self.cn = 0       # Items in cache now
 		self.stored = {}  # Stored keys
-		self.heap = []
+		self.heap = []    # (-dist, key, valid)
 		self.hitcount = 0
 		self.count = 0
 		self.nextref = {}
@@ -20,8 +20,20 @@ class alg:
 		return ne
 
 	def deletefurthest(self):
-		dist, delkey = heappop(self.heap)
+		valid = False
+		delkey = None
+		while not valid:
+			deldist, delkey, valid = heappop(self.heap)
+		realdeldist = -deldist
+		#print "Deleting %s from cache, dist is %s" %(delkey, realdeldist)
+		item = self.stored[delkey]
+		assert item[0] == deldist
+		assert item[1] == delkey
 		del self.stored[delkey]
+		for k,v in self.stored.items():
+			thisdist, thiskey, valid = v
+			realthisdist = -thisdist
+			assert realthisdist <= realdeldist
 
 	def setup(self, reqlist):
 		# reqlist: (mode, key , size)
@@ -34,11 +46,18 @@ class alg:
 
 
 	def get(self, key):
+		#print "Cache: %s" % self.stored.keys()
 		assert self.nextref[key]
 		self.count += 1
 		self.nextref[key].pop()
 		if key in self.stored:
 			#print "Hit on %s, next reference is %s" % (key, self.getnextref(key))
+			old = self.stored[key]
+			old[2] = False
+			nr = self.getnextref(key)
+			item = [-nr, key, True]
+			self.stored[key] = item
+			heappush(self.heap, item)
 			self.hitcount += 1
 		else:
 			#print "Miss on %s" % (key)
@@ -51,6 +70,7 @@ class alg:
 				self.deletefurthest()
 			else:
 				self.cn += 1
-			self.stored[key] = 1
 			dist = self.getnextref(key)
-			heappush(self.heap, (-dist, key))
+			item  = [-dist, key, True]
+			self.stored[key] = item
+			heappush(self.heap, item)

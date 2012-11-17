@@ -2,7 +2,7 @@
 set -e
 
 l="CLOCK LRU LFU ARC OPT"
-l="OPT CLOCK LRU LFU ARC"
+l="CLOCKPRO OPT CLOCK LRU LFU ARC"
 ss="50 100 250 500 1000 2500 5000 10000"
 ss="10 25 50 75 100 250" 
 
@@ -19,3 +19,4 @@ do
 	rm "results/$alg.restmp"
 done 
 
+./plot.gnu
