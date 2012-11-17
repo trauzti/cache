@@ -1,3 +1,5 @@
+from heapq import heappush, heappop
+
 class alg:
 	def __repr__(self):
 		return "OPT"
@@ -6,6 +8,7 @@ class alg:
 		self.c = c        # Cache size
 		self.cn = 0       # Items in cache now
 		self.stored = {}  # Stored keys
+		self.heap = []
 		self.hitcount = 0
 		self.count = 0
 		self.nextref = {}
@@ -17,15 +20,7 @@ class alg:
 		return ne
 
 	def deletefurthest(self):
-		delkey = None
-		furthest = -1
-		for k in self.stored.iterkeys():
-			ne = self.getnextref(k)
-			if ne > furthest:
-				furthest = ne
-				delkey = k
-		assert delkey
-		#print "Deleted: %s" % delkey
+		dist, delkey = heappop(self.heap)
 		del self.stored[delkey]
 
 	def setup(self, reqlist):
@@ -37,16 +32,17 @@ class alg:
 			index -= 1
 		assert index == -1
 
+
 	def get(self, key):
+		assert self.nextref[key]
 		self.count += 1
+		self.nextref[key].pop()
 		if key in self.stored:
-			#print "Hit: %s" % key
+			#print "Hit on %s, next reference is %s" % (key, self.getnextref(key))
 			self.hitcount += 1
 		else:
-			#print "Miss: %s" % key
+			#print "Miss on %s" % (key)
 			self.put(key)
-		assert self.nextref[key]
-		self.nextref[key].pop()
 
 
 	def put(self, key):
@@ -56,3 +52,5 @@ class alg:
 			else:
 				self.cn += 1
 			self.stored[key] = 1
+			dist = self.getnextref(key)
+			heappush(self.heap, (-dist, key))

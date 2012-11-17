@@ -1,3 +1,5 @@
+from heapq import heappush, heappop
+
 class alg:
 	def __repr__(self):
 		return "LFU"
@@ -5,8 +7,9 @@ class alg:
 	def __init__(self, c):
 		# c is cache size
 		self.c = c
-		self.cache = []
+		self.cn = 0
 		self.stored = {}
+		self.heap = []  # (dist, key, valid)
 		self.hitcount = 0
 		self.count = 0
 
@@ -18,27 +21,23 @@ class alg:
 		self.count += 1
 		if key in self.stored:
 			self.hitcount += 1
-			self.stored[key] += 1
+			old = self.stored[key]
+			old[2] = False
+			item = [key, old[1]+1, True]
+			heappush(self.heap, item)
 		else:
 			self.put(key)
 
 	def put(self, key):
 		if key not in self.stored:
-			self.stored[key] = 1
-			if len(self.cache) == self.c:
-				_min = float("inf")
-				_mindex = -1
-				_minitem = None
-				for i in xrange(self.c):
-					item = self.cache[i]
-					if self.stored[item] < _min:
-						# Maybe a little biased to delete the first low item
-						_min = self.stored[item]
-						_mindex = i
-						_minitem = item
-				assert _mindex >= 0
-				del self.stored[_minitem]
-				self.cache[_mindex] = key
+			if self.cn == self.c:
+				valid = False
+				delkey = None
+				while not valid:
+					dist, delkey, valid = heappop(self.heap)
+				del self.stored[delkey]
 			else:
-				self.cache.append(key)
-			self.stored[key] = 1
+				self.cn += 1
+			item = [key, 1, True]
+			heappush(self.heap, item)
+			self.stored[key] = item
