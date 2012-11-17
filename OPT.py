@@ -25,15 +25,8 @@ class alg:
 		while not valid:
 			deldist, delkey, valid = heappop(self.heap)
 		realdeldist = -deldist
-		#print "Deleting %s from cache, dist is %s" %(delkey, realdeldist)
 		item = self.stored[delkey]
-		assert item[0] == deldist
-		assert item[1] == delkey
 		del self.stored[delkey]
-		for k,v in self.stored.items():
-			thisdist, thiskey, valid = v
-			realthisdist = -thisdist
-			assert realthisdist <= realdeldist
 
 	def setup(self, reqlist):
 		# reqlist: (mode, key , size)
@@ -46,12 +39,10 @@ class alg:
 
 
 	def get(self, key):
-		#print "Cache: %s" % self.stored.keys()
 		assert self.nextref[key]
 		self.count += 1
 		self.nextref[key].pop()
 		if key in self.stored:
-			#print "Hit on %s, next reference is %s" % (key, self.getnextref(key))
 			old = self.stored[key]
 			old[2] = False
 			nr = self.getnextref(key)
@@ -60,7 +51,6 @@ class alg:
 			heappush(self.heap, item)
 			self.hitcount += 1
 		else:
-			#print "Miss on %s" % (key)
 			self.put(key)
 
 

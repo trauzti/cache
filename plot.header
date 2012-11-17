@@ -1,0 +1,6 @@
+set term png
+
+set xlabel "Cache size"
+set ylabel "Hit ratio [%]"
+set style data linespoints
+

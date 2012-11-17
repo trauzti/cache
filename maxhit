@@ -1,0 +1,18 @@
+#!/usr/bin/python
+import sys
+
+if len(sys.argv) < 2:
+	print "Usage: %s <filenames>" % sys.argv[0]
+	exit()
+
+ma = 0
+for fn in sys.argv[1:]:
+	f = open(fn).readlines()
+	for line in f:
+		a, b, val = line.replace("\n", "").split(" ")
+		ma = max(ma, float(val))
+
+
+print min(10*int((ma+20)/ 10), 100)
+
+

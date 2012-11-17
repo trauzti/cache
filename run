@@ -2,9 +2,7 @@
 set -e
 
 l="CLOCK LRU LFU ARC OPT"
-l="CLOCKPRO OPT CLOCK LRU LFU ARC"
-ss="50 100 250 500 1000 2500 5000 10000"
-ss="10 25 50 75 100 250" 
+ss="5 10 25 50 75 100 125 250" 
 
 if [[ ! -f $1 ]] 
 then
@@ -12,11 +10,43 @@ then
 	exit
 fi
 
+
+base=$(basename $1)
+mkdir -p "results/$base"
+
 for alg in $l 
 do 
-	parallel -i python sim.py $alg $1 {} >> "results/$alg.restmp" -- $ss
-	sort -k2n,2 "results/$alg.restmp"  > "results/$alg.res"
-	rm "results/$alg.restmp"
+	parallel -i python sim.py $alg $1 {} >> "results/$base/$alg.restmp" -- $ss
+	sort -k2n,2 "results/$base/$alg.restmp"  > "results/$base/$alg.res"
+	rm "results/$base/$alg.restmp"
 done 
 
-./plot.gnu
+for s in $ss
+do
+	lasts=$s
+done
+
+ymax=$lasts+50
+
+
+maxhit=$(./maxhit results/$base/*)
+(cat plot.header
+echo "set output \"results/$base.png\""
+echo "set title \"Trace: $base\""
+echo "set yrange [0:$maxhit]"
+echo "set xrange [0:$ymax]"
+printf "plot "
+notfirst=false
+for alg in $l 
+do  
+	$notfirst && printf " , "
+	notfirst=true
+    printf "\"results/$base/$alg.res\" using 2:3  title \"$alg\" "
+done) > "$base.gnu"
+
+
+cat "$base.gnu" | gnuplot
+sed -i '1i\#!/usr/bin/gnuplot' $base.gnu
+chmod +x "$base.gnu"
+eog "results/$base.png" &
+

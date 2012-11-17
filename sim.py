@@ -4,21 +4,13 @@ import os
 import time
 import sys
 
-sys.path.append("/home/turtle/Research/TopSecret/")
-
-import CLOCK, LRU, LFU, OPT, ARC, CLOCKPRO
-#import CLOCK, LRU, LFU, OPT, ARC #, LIRS
+import CLOCK, LRU, LFU, OPT, ARC
 
 l = { "CLOCK": CLOCK,
-      "CLOCKPRO": CLOCKPRO,
       "LRU": LRU,
 	  "LFU": LFU,
 	  "OPT": OPT,
 	  "ARC": ARC }
-
-if not os.path.isdir("results/"):
-	os.makedirs("results/")
-
 
 lasttime = time.time()
 
