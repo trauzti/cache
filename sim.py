@@ -4,12 +4,13 @@ import os
 import time
 import sys
 
-import CLOCK, LRU, LFU, OPT, ARC
+import CLOCK, LRU, LFU, OPT, ARC, LIRS
 
 l = { "CLOCK": CLOCK,
       "LRU": LRU,
 	  "LFU": LFU,
 	  "OPT": OPT,
+	  "LIRS": LIRS,
 	  "ARC": ARC }
 
 lasttime = time.time()
@@ -34,7 +35,7 @@ if __name__ == "__main__":
 	alg = algm.alg(c)
 	alg.setup(lines)
 	for line in lines:
-		key, size = line.replace("\n", "").split(" ")[:2]
+		key = line.replace("\n", "").split(" ")[0]
 		alg.get(key)
 
 	print "%s %d %.1f" % (str(alg), c, 100.0*alg.hitcount / alg.count )

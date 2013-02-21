@@ -1,5 +1,4 @@
-set term png
-
+set term pngcairo
 set xlabel "Cache size"
 set ylabel "Hit ratio [%]"
 set style data linespoints
