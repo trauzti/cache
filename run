@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-l="CLOCK LRU LFU ARC OPT"
-ss="5 10 25 50 75 100 125 250" 
+l="CLOCK LRU LFU ARC OPT LIRS"
+ss="20 35 50 80 100 300" 
 
 if [[ ! -f $1 ]] 
 then
