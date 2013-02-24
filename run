@@ -1,8 +1,37 @@
 #!/bin/bash
 set -e
 
-l="CLOCK LRU LFU ARC OPT LIRS"
-ss="20 35 50 80 100 300" 
+#l="CLOCK LRU LFU ARC OPT LIRS"
+l="CLOCK LRU LIRS OPT"
+ss="20 35 50 80 100 300 500 700 900"
+
+PYTHON=/usr/bin/python
+if [ `uname -n` == "halley" ]
+then
+	PYTHON=/home/trausti12/Python-2.7/python
+fi
+
+echo `$PYTHON --version`
+
+
+function waitfunc {
+	set +e
+	pidlist=$1
+	echo "waiting for $pidlist"
+	while true 
+	do
+		alldone=true
+		for pid in $pidlist
+		do
+			[[ `ps|grep $pid` ]] && alldone=false && break
+		done
+		$alldone && break
+		sleep 0.1s
+	done
+	set -e
+	echo "done waiting"
+}
+
 
 if [[ ! -f $1 ]] 
 then
@@ -16,7 +45,14 @@ mkdir -p "results/$base"
 
 for alg in $l 
 do 
-	parallel -i python sim.py $alg $1 {} >> "results/$base/$alg.restmp" -- $ss
+	pidlist=""
+	rm -f "results/$base/$alg.restmp"
+	for s in $ss
+	do 
+		$PYTHON sim.py $alg $1 $s >> "results/$base/$alg.restmp" &
+		pidlist="$pidlist $!"
+	done
+	waitfunc "$pidlist"
 	sort -k2n,2 "results/$base/$alg.restmp"  > "results/$base/$alg.res"
 	rm "results/$base/$alg.restmp"
 done 
@@ -45,8 +81,8 @@ do
 done) > "$base.gnu"
 
 
-cat "$base.gnu" | gnuplot
+#cat "$base.gnu" | gnuplot
 sed -i '1i\#!/usr/bin/gnuplot' $base.gnu
 chmod +x "$base.gnu"
-eog "results/$base.png" &
+#eog "results/$base.png" &
 

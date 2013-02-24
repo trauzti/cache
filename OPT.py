@@ -32,7 +32,7 @@ class alg:
 		# reqlist: (mode, key , size)
 		index = len(reqlist) - 1
 		for line in reversed(reqlist):
-			key, size = line.replace("\n", "").split(" ")[:2]
+			key = line.replace("\n", "").split(" ")[0]
 			self.nextref.setdefault(key, []).append(index)
 			index -= 1
 		assert index == -1
