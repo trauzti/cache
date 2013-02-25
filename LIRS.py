@@ -1,3 +1,4 @@
+import sys
 from collections import OrderedDict
 LIR = 0
 HIR = 1
@@ -29,6 +30,8 @@ class alg:
 		pass
 
 	def get(self, key):
+		#if self.count % 100 == 0:
+		#	sys.stderr.write("S: %d\n" % len(self.S))
 		self.countResident()
 		self.count += 1
 		self.put(key)

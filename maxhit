@@ -13,6 +13,6 @@ for fn in sys.argv[1:]:
 		ma = max(ma, float(val))
 
 
-print min(10*int((ma+20)/ 10), 100)
+print min(10*int((ma+40)/ 10), 120)
 
 

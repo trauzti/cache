@@ -1,17 +1,15 @@
 #!/bin/bash
 set -e
 
-#l="CLOCK LRU LFU ARC OPT LIRS"
-l="CLOCK LRU LIRS OPT"
-ss="20 35 50 80 100 300 500 700 900"
+#l="CLOCK LRU LIRS OPT"
+l="CLOCK LRU LFU ARC OPT LIRS"
+ss="10 30 50 70 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500"
 
 PYTHON=/usr/bin/python
 if [ `uname -n` == "halley" ]
 then
 	PYTHON=/home/trausti12/Python-2.7/python
 fi
-
-echo `$PYTHON --version`
 
 
 function waitfunc {
