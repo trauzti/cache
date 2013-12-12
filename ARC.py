@@ -18,7 +18,7 @@ class alg:
         self.b2 = deque()
 
     def setup(self, reqlist):
-		# I'm an online algorithm :-)
+                # I'm an online algorithm :-)
         pass
 
     def replace(self, args):
