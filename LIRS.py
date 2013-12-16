@@ -35,14 +35,14 @@ class alg:
         self.countResident()
         self.count += 1
         self.put(key)
-
-    def put(self, key):
         if (key in self.S and self.S[key].resident) or key in self.Q:
             #print "HIT for %s" % key
             self.hitcount += 1
-        else:
-            pass
-            #print "MISS for %s" % key
+            return 1
+        return 0
+        #print "MISS for %s" % key
+
+    def put(self, key):
         if key in self.S:
             e = self.S[key]
             del self.S[key]

@@ -26,8 +26,8 @@ class alg:
             item = [old[0]+1, key, True]
             heappush(self.heap, item)
             self.stored[key] = item
-        else:
-            self.put(key)
+            return 1
+        return 0
 
     def put(self, key):
         if key not in self.stored:

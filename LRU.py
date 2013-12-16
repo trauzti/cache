@@ -6,7 +6,7 @@ class Node:
         self.key = key
         self.next = None
         self.prev = None
-        self.val = val     # needed for evictions
+        self.val = val
 
     def __repr__(self):
         return "Node(%s -> %s)" % (self.key, self.val)
@@ -77,7 +77,6 @@ class alg:
 
 
     # put n at the LRU head
-    # maintains tail and head correctly
     def update_head(self, n):
         # Update the LRU head
         n.prev = None
@@ -91,6 +90,7 @@ class alg:
     # if the key is found in the cache, put it in the LRU head and return the value
     # else return None
     def get(self, key):
+        print "get(%s)" % key
         self.count += 1
         if key in self.stored:
             self.hitcount += 1
@@ -105,9 +105,12 @@ class alg:
         return None
 
     def put(self, key, val=None):
+        print "put(%s)" % key
         if key not in self.stored:
             n = Node(key, val)
             self.stored[key] = n
+            if not self.tail:
+                self.tail = n
         else:
             # Overwrite it correctly
             n = self.stored[key]
@@ -125,3 +128,6 @@ class alg:
             self.tail.next = None
         else:
             self.cn += 1
+
+    def print_statistics(self):
+        print "Hit ratio: %.5f" % (self.hitcount / (0.0 + self.count))

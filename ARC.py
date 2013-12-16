@@ -36,12 +36,13 @@ class alg:
             self.t1.remove(key)
             self.t2.appendleft(key)
             self.hitcount += 1
+            return 1
         elif key in self.t2:
             self.t2.remove(key)
             self.t2.appendleft(key)
             self.hitcount += 1
-        else:
-            self.put(key)
+            return 1
+        return 0
 
     def put(self, key):
         if key in self.cached:

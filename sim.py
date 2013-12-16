@@ -36,7 +36,9 @@ if __name__ == "__main__":
     alg.setup(lines)
     for line in lines:
         key = line.replace("\n", "").split(" ")[0]
-        alg.get(key)
+        ret = alg.get(key)
+        if not ret:
+            alg.put(key)
 
     print "%s %d %.1f" % (str(alg), c, 100.0*alg.hitcount / alg.count )
     sys.stderr.write("%s with %d\tHit ratio: %.4f (took %ds)\n" % (fillspace(str(alg)), c,  (0.0+alg.hitcount) / alg.count, time.time() - lasttime))

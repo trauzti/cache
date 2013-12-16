@@ -21,8 +21,8 @@ class alg:
         if key in self.stored:
             self.hitcount += 1
             self.stored[key] = 1
-        else:
-            self.put(key)
+            return 1
+        return 0
 
     def put(self, key):
         if key not in self.stored:

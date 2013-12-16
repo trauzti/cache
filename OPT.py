@@ -50,9 +50,8 @@ class alg:
             self.stored[key] = item
             heappush(self.heap, item)
             self.hitcount += 1
-        else:
-            self.put(key)
-
+            return 1
+        return 0
 
     def put(self, key):
         if key not in self.stored:
