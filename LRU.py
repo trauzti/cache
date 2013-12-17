@@ -90,7 +90,6 @@ class alg:
     # if the key is found in the cache, put it in the LRU head and return the value
     # else return None
     def get(self, key):
-        print "get(%s)" % key
         self.count += 1
         if key in self.stored:
             self.hitcount += 1
@@ -104,13 +103,13 @@ class alg:
             return n.val
         return None
 
-    def put(self, key, val=None):
-        print "put(%s)" % key
+    def put(self, key, val=1):
         if key not in self.stored:
             n = Node(key, val)
             self.stored[key] = n
             if not self.tail:
                 self.tail = n
+            self.update_head(n)
         else:
             # Overwrite it correctly
             n = self.stored[key]
@@ -118,8 +117,6 @@ class alg:
             if n != self.head:
                 self.unlink(n)
                 self.update_head(n)
-            if not self.tail:
-                self.tail = n
 
         if self.cn == self.c:
             # Evict the tail
@@ -128,6 +125,7 @@ class alg:
             self.tail.next = None
         else:
             self.cn += 1
+
 
     def print_statistics(self):
         print "Hit ratio: %.5f" % (self.hitcount / (0.0 + self.count))

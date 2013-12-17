@@ -34,7 +34,6 @@ class alg:
         #       sys.stderr.write("S: %d\n" % len(self.S))
         self.countResident()
         self.count += 1
-        self.put(key)
         if (key in self.S and self.S[key].resident) or key in self.Q:
             #print "HIT for %s" % key
             self.hitcount += 1
@@ -42,7 +41,7 @@ class alg:
         return 0
         #print "MISS for %s" % key
 
-    def put(self, key):
+    def put(self, key, val=1):
         if key in self.S:
             e = self.S[key]
             del self.S[key]

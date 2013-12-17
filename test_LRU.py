@@ -6,6 +6,7 @@ lru = alg(5)
 lru.walk()
 print "Loop starting"
 for i in xrange(5):
+    assert lru.get(i) == None
     lru.put(i, i*i)
     assert lru.get(i) == i*i
     assert lru.head.key == i

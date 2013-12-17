@@ -24,7 +24,7 @@ class alg:
             return 1
         return 0
 
-    def put(self, key):
+    def put(self, key, val=1):
         if key not in self.stored:
             self.stored[key] = 1
             if self.cn == self.c:

@@ -38,7 +38,7 @@ class alg:
         assert index == -1
 
 
-    def get(self, key):
+    def get(self, key, val=1):
         assert self.nextref[key]
         self.count += 1
         self.nextref[key].pop()
@@ -53,7 +53,7 @@ class alg:
             return 1
         return 0
 
-    def put(self, key):
+    def put(self, key, val=1):
         if key not in self.stored:
             if self.cn == self.c:
                 self.deletefurthest()

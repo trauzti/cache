@@ -11,7 +11,8 @@ l = { "CLOCK": CLOCK,
           "LFU": LFU,
           "OPT": OPT,
           "LIRS": LIRS,
-          "ARC": ARC }
+          "ARC": ARC
+}
 
 lasttime = time.time()
 
@@ -38,7 +39,7 @@ if __name__ == "__main__":
         key = line.replace("\n", "").split(" ")[0]
         ret = alg.get(key)
         if not ret:
-            alg.put(key)
+            alg.put(key, 1)
 
     print "%s %d %.1f" % (str(alg), c, 100.0*alg.hitcount / alg.count )
     sys.stderr.write("%s with %d\tHit ratio: %.4f (took %ds)\n" % (fillspace(str(alg)), c,  (0.0+alg.hitcount) / alg.count, time.time() - lasttime))

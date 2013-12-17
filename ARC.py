@@ -44,7 +44,7 @@ class alg:
             return 1
         return 0
 
-    def put(self, key):
+    def put(self, key, val=1):
         if key in self.cached:
             return
         self.cached[key] = 1
