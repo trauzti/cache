@@ -4,14 +4,16 @@ import os
 import time
 import sys
 
-import CLOCK, LRU, LFU, OPT, ARC, LIRS
+import CLOCK, LRU, LFU, OPT, ARC, LIRS, RANDOM, kRANDOM_LRU
 
 l = { "CLOCK": CLOCK,
       "LRU": LRU,
-          "LFU": LFU,
-          "OPT": OPT,
-          "LIRS": LIRS,
-          "ARC": ARC
+      "LFU": LFU,
+      "OPT": OPT,
+      "LIRS": LIRS,
+      "ARC": ARC,
+      "RANDOM": RANDOM,
+      "kRANDOM_LRU": kRANDOM_LRU,
 }
 
 lasttime = time.time()
@@ -35,6 +37,7 @@ if __name__ == "__main__":
     f.close()
     alg = algm.alg(c)
     alg.setup(lines)
+
     for line in lines:
         key = line.replace("\n", "").split(" ")[0]
         ret = alg.get(key)

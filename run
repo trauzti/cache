@@ -2,7 +2,8 @@
 set -e
 
 #l="CLOCK LRU LIRS OPT"
-l="CLOCK LRU LFU ARC OPT LIRS"
+#l="CLOCK LRU LFU ARC OPT LIRS RANDOM"
+l="LRU OPT RANDOM kRANDOM_LRU"
 ss="10 30 50 70 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500"
 
 PYTHON=/usr/bin/python
@@ -79,8 +80,8 @@ do
 done) > "$base.gnu"
 
 
-#cat "$base.gnu" | gnuplot
-sed -i '1i\#!/usr/bin/gnuplot' $base.gnu
-chmod +x "$base.gnu"
+cat "$base.gnu" | gnuplot
+#sed -i '1i\#!/usr/bin/gnuplot' $base.gnu
+#chmod +x "$base.gnu"
 #eog "results/$base.png" &
 
