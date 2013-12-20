@@ -13,7 +13,7 @@ class alg:
     def __repr__(self):
         return "LIRS"
 
-    def __init__(self, c):
+    def __init__(self, c, **kwargs):
         # c is cache size
         self.c = c  # Max
         self.lirs = 0

@@ -4,7 +4,7 @@ class alg:
     def __repr__(self):
         return "OPT"
 
-    def __init__(self, c):
+    def __init__(self, c, **kwargs):
         self.c = c        # Cache size
         self.cn = 0       # Items in cache now
         self.stored = {}  # Stored keys

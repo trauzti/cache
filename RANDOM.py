@@ -5,7 +5,8 @@ class alg:
     def __repr__(self):
         return "RANDOM"
 
-    def __init__(self, c):
+    def __init__(self, c, **kwargs):
+        random.seed(1337)
         # c is cache size
         self.c = c
         self.cn = 0

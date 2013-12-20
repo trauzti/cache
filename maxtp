@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import sys
+from math import ceil
 
 if len(sys.argv) < 2:
 	print "Usage: %s <filenames>" % sys.argv[0]
@@ -9,10 +10,10 @@ ma = 0
 for fn in sys.argv[1:]:
 	f = open(fn).readlines()
 	for line in f:
-		a, b, val, time = line.replace("\n", "").split(" ")
-		ma = max(ma, float(val))
+		a, b, val, t = line.replace("\n", "").split(" ")
+		ma = max(ma, float(t))
 
 
-print min(10*int((ma+40)/ 10), 120)
+print 1.5*ma
 
 

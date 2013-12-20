@@ -3,7 +3,9 @@ set -e
 
 #l="CLOCK LRU LIRS OPT"
 #l="CLOCK LRU LFU ARC OPT LIRS RANDOM"
-l="LRU OPT RANDOM kRANDOM_LRU"
+#l="LRU OPT RANDOM RANDOM_LRU_3 RANDOM_LRU_10"
+#l="OPT CLOCK ARC LIRS RANDOM"
+l="OPT CLOCK ARC RANDOM RANDOM_LRU_3"
 ss="10 30 50 70 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500"
 
 PYTHON=/usr/bin/python
@@ -48,10 +50,11 @@ do
 	rm -f "results/$base/$alg.restmp"
 	for s in $ss
 	do 
-		$PYTHON sim.py $alg $1 $s >> "results/$base/$alg.restmp" &
+		#$PYTHON sim.py $alg $1 $s >> "results/$base/$alg.restmp" &
+		$PYTHON sim.py $alg $1 $s >> "results/$base/$alg.restmp"
 		pidlist="$pidlist $!"
 	done
-	waitfunc "$pidlist"
+	#waitfunc "$pidlist"
 	sort -k2n,2 "results/$base/$alg.restmp"  > "results/$base/$alg.res"
 	rm "results/$base/$alg.restmp"
 done 
@@ -61,15 +64,17 @@ do
 	lasts=$s
 done
 
-ymax=$lasts+50
+cmax=$lasts+50
+
 
 
 maxhit=$(./maxhit results/$base/*)
 (cat plot.header
+echo "set ylabel \"Hit ratio [%]\""
 echo "set output \"results/$base.png\""
 echo "set title \"Trace: $base\""
+echo "set xrange [0:$cmax]"
 echo "set yrange [0:$maxhit]"
-echo "set xrange [0:$ymax]"
 printf "plot "
 notfirst=false
 for alg in $l 
@@ -81,7 +86,27 @@ done) > "$base.gnu"
 
 
 cat "$base.gnu" | gnuplot
+rm $base.gnu
+
 #sed -i '1i\#!/usr/bin/gnuplot' $base.gnu
 #chmod +x "$base.gnu"
 #eog "results/$base.png" &
 
+maxtp=$(./maxtp results/$base/*)
+(cat plot.header
+echo "set ylabel \"Throughput [requests/s]\""
+echo "set output \"results/${base}_tp.png\""
+echo "set title \"Trace: $base\""
+echo "set xrange [0:$cmax]"
+echo "set yrange [0:$maxtp]"
+printf "plot "
+notfirst=false
+for alg in $l 
+do  
+	$notfirst && printf " , "
+	notfirst=true
+    printf "\"results/$base/$alg.res\" using 2:4  title \"$alg\" "
+done) > "${base}_tp.gnu"
+
+cat "${base}_tp.gnu" | gnuplot
+rm ${base}_tp.gnu

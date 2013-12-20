@@ -8,7 +8,8 @@ class alg:
     def __repr__(self):
         return "kRANDOM_LRU(k=%d)" % self.k
 
-    def __init__(self, c, k=10):
+    def __init__(self, c, k=3):
+        random.seed(1337)
         # c is cache size
         self.c = c
         self.k = k

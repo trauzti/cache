@@ -4,7 +4,7 @@ class alg:
     def __repr__(self):
         return "LFU"
 
-    def __init__(self, c):
+    def __init__(self, c, **kwargs):
         # c is cache size
         self.c = c
         self.cn = 0

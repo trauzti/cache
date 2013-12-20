@@ -2,7 +2,7 @@ class alg:
     def __repr__(self):
         return "CLOCK"
 
-    def __init__(self, c):
+    def __init__(self, c, **kwargs):
         # c is cache size
         self.c = c  # Max
         self.cn = 0 # Current

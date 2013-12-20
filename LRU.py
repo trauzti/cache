@@ -12,7 +12,7 @@ class Node:
         return "Node(%s -> %s)" % (self.key, self.val)
 
 class alg:
-    def __init__(self, c):
+    def __init__(self, c, **kwargs):
         # c is cache size
         self.c = c
         self.cn = 0
