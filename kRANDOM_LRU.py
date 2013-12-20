@@ -2,7 +2,7 @@ import random
 import time
 
 # Takes k random sample items from the cache and evicts the oldest item
-# This is the same algorithm as allkeys-lru in Redis
+# This is the same algorithm as allkeys-lru in Redis (there k=3 by default)
 
 class alg:
     def __repr__(self):
