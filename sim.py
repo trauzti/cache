@@ -4,7 +4,7 @@ import os
 import time
 import sys
 
-import CLOCK, LRU, LFU, OPT, ARC, LIRS, RANDOM, kRANDOM_LRU
+import CLOCK, LRU, LFU, OPT, ARC, LIRS, RANDOM, kRANDOM_LRU, SkLRU
 
 l = { "CLOCK": CLOCK,
       "LRU": LRU,
@@ -30,6 +30,9 @@ if __name__ == "__main__":
     if algn.find("RANDOM_LRU") >= 0:
         algm = kRANDOM_LRU
         k = int(algn.replace("RANDOM_LRU_", ""))
+    elif algn[0] == "S" and algn.find("LRU") > 0:
+        algm = SkLRU
+        k = int(algn[1:].replace("LRU", ""))
     elif algn not in l:
         print "Algorithm: %s does not exist" % algn
         exit()
